@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Revolution - Emergency Intake Portal</title>
+    <title>Water Analytics Telemetry Dashboard</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,8 +12,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #f0f4f8;
-            color: #333;
+            background-color: #f0f9ff;
+            color: #1e293b;
             line-height: 1.6;
         }
         header {
@@ -31,157 +31,146 @@
             opacity: 0.9;
         }
         .container {
-            max-width: 700px;
+            max-width: 900px;
             margin: 2rem auto;
             background: white;
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .emergency-notice {
-            background: #fef2f2;
-            border-left: 4px solid #dc2626;
-            padding: 1rem;
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 1.5rem;
-            border-radius: 4px;
-            color: #991b1b;
-            font-size: 0.95rem;
-        }
-        h2 {
-            color: #0369a1;
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e0f2fe;
-            font-size: 1.5rem;
-        }
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-        label {
-            display: block;
-            margin-bottom: 0.4rem;
-            font-weight: 600;
-            color: #374151;
-            font-size: 0.95rem;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #0284c7;
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
         }
         .btn {
             background: #0284c7;
             color: white;
-            padding: 0.85rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             border: none;
             border-radius: 6px;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            width: 100%;
             transition: background 0.2s;
-            margin-top: 0.5rem;
         }
         .btn:hover {
             background: #0369a1;
         }
-        .confirmation {
-            display: none;
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            color: #166534;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .card h3 {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        .card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .card .unit {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .alert-box {
             padding: 1rem;
             border-radius: 6px;
-            margin-top: 1rem;
-            text-align: center;
             font-weight: 600;
+            display: none;
+            margin-top: 1rem;
+        }
+        .alert-safe {
+            background: #dcfce7;
+            color: #166534;
+            border-left: 4px solid #22c55e;
+        }
+        .alert-warning {
+            background: #fef2f2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Medical Revolution</h1>
-        <p>Instant Emergency Pre-Admission Portal — Saving Critical Seconds</p>
+        <h1>🌊 Water Analytics Telemetry Dashboard</h1>
+        <p>Real-Time Parameter Tracking & Field Action Directives</p>
     </header>
 
     <div class="container">
-        <div class="emergency-notice">
-            <strong>Critical Care Notice:</strong> Submitting this pre-admission form instantly alerts triage staff to prepare emergency medical teams before patient arrival.
+        <div class="controls">
+            <h2>Sector: Dehradun Distribution Zone</h2>
+            <button class="btn" onclick="refreshTelemetry()">🔄 Refresh Stream</button>
         </div>
 
-        <h2>Emergency Intake Form</h2>
-        
-        <form id="intakeForm">
-            <div class="form-group">
-                <label for="fullName">Patient Full Name</label>
-                <input type="text" id="fullName" placeholder="Enter patient's name" required>
+        <div class="grid">
+            <div class="card">
+                <h3>pH Level</h3>
+                <div class="value" id="phVal">7.2</div>
+                <div class="unit">pH (Safe: 6.5 - 8.5)</div>
             </div>
-
-            <div class="form-group">
-                <label for="age">Age & Gender</label>
-                <div style="display: flex; gap: 10px;">
-                    <input type="number" id="age" placeholder="Age" required style="flex: 1;">
-                    <select id="gender" required style="flex: 1;">
-                        <option value="" disabled selected>Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
+            <div class="card">
+                <h3>Turbidity</h3>
+                <div class="value" id="turbidityVal">2.1</div>
+                <div class="unit">NTU (Safe: < 5.0)</div>
             </div>
-
-            <div class="form-group">
-                <label for="urgency">Urgency / Primary Condition</label>
-                <select id="urgency" required>
-                    <option value="" disabled selected>Select condition severity...</option>
-                    <option value="Cardiac Event">Severe Chest Pain / Suspected Cardiac Event</option>
-                    <option value="Major Trauma">Major Trauma / Accident</option>
-                    <option value="Respiratory Distress">Severe Breathing Difficulty</option>
-                    <option value="Stroke / Neurological">Stroke Symptoms / Sudden Numbness</option>
-                    <option value="Other Crisis">Other Severe Emergency</option>
-                </select>
+            <div class="card">
+                <h3>Dissolved Oxygen</h3>
+                <div class="value" id="doVal">6.8</div>
+                <div class="unit">mg/L (Safe: > 5.0)</div>
             </div>
-
-            <div class="form-group">
-                <label for="symptoms">Symptoms & Vitals (if known)</label>
-                <textarea id="symptoms" rows="3" placeholder="Describe current symptoms, duration, or vital signs..."></textarea>
+            <div class="card">
+                <h3>TDS</h3>
+                <div class="value" id="tdsVal">210</div>
+                <div class="unit">ppm (Safe: < 500)</div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="contact">Emergency Contact Number</label>
-                <input type="tel" id="contact" placeholder="Enter phone number" required>
-            </div>
-
-            <button type="submit" class="btn">Submit Emergency Intake</button>
-        </form>
-
-        <div id="confirmationMessage" class="confirmation">
-            Emergency Pre-Admission Submitted! Triage notification dispatched to clinical team.
+        <div id="statusAlert" class="alert-box alert-safe" style="display: block;">
+            ✅ Field Action Directive: Water quality parameters within optimal safety thresholds.
         </div>
     </div>
 
     <script>
-        document.getElementById('intakeForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        function refreshTelemetry() {
+            // Simulating real-time telemetry sensor readings
+            const ph = (6.0 + Math.random() * 3.0).toFixed(1);
+            const turbidity = (1.0 + Math.random() * 6.0).toFixed(1);
+            const doVal = (4.0 + Math.random() * 4.0).toFixed(1);
+            const tds = Math.floor(150 + Math.random() * 400);
 
-            const patientName = document.getElementById('fullName').value;
-            const urgency = document.getElementById('urgency').value;
+            document.getElementById('phVal').innerText = ph;
+            document.getElementById('turbidityVal').innerText = turbidity;
+            document.getElementById('doVal').innerText = doVal;
+            document.getElementById('tdsVal').innerText = tds;
 
-            const confirmBox = document.getElementById('confirmationMessage');
-            confirmBox.innerText = `Pre-admission submitted for ${patientName} (${urgency}). Triage alerted!`;
-            confirmBox.style.display = 'block';
+            const alertBox = document.getElementById('statusAlert');
 
-            this.reset();
-        });
+            // Threshold checks for automated directives
+            if (ph < 6.5 || ph > 8.5 || turbidity > 5.0 || doVal < 5.0 || tds > 500) {
+                alertBox.className = "alert-box alert-warning";
+                alertBox.innerText = "⚠️ Directive Alert: Anomaly detected in telemetry stream! Automated purification response initiated.";
+            } else {
+                alertBox.className = "alert-box alert-safe";
+                alertBox.innerText = "✅ Field Action Directive: Water quality parameters within optimal safety thresholds.";
+            }
+            alertBox.style.display = "block";
+        }
     </script>
 
 </body>
