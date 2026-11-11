@@ -43,6 +43,19 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        select {
+            padding: 0.6rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0369a1;
+            background-color: #f8fafc;
+            outline: none;
+            cursor: pointer;
         }
         .btn {
             background: #0284c7;
@@ -114,7 +127,21 @@
 
     <div class="container">
         <div class="controls">
-            <h2>Sector: Dehradun Distribution Zone</h2>
+            <div>
+                <label for="areaSelect" style="font-weight: 600; margin-right: 8px;">Select Zone:</label>
+                <select id="areaSelect" onchange="refreshTelemetry()">
+                    <option value="Clock Tower">Clock Tower Zone</option>
+                    <option value="Prem Nagar">Prem Nagar Zone</option>
+                    <option value="Mussoorie">Mussoorie Hills</option>
+                    <option value="Roorkee">Roorkee Region</option>
+                    <option value="Rajpur Road">Rajpur Road</option>
+                    <option value="Clement Town">Clement Town</option>
+                    <option value="Vikasnagar">Vikasnagar Sector</option>
+                    <option value="ISBT Dehradun">ISBT Dehradun</option>
+                    <option value="Ballupur">Ballupur Chowk</option>
+                    <option value="Sahastradhara">Sahastradhara Sector</option>
+                </select>
+            </div>
             <button class="btn" onclick="refreshTelemetry()">🔄 Refresh Stream</button>
         </div>
 
@@ -148,7 +175,9 @@
 
     <script>
         function refreshTelemetry() {
-            // Simulating real-time telemetry sensor readings
+            const area = document.getElementById('areaSelect').value;
+
+            // Generate telemetry readings for selected area
             const ph = (6.0 + Math.random() * 3.0).toFixed(1);
             const turbidity = (1.0 + Math.random() * 6.0).toFixed(1);
             const doVal = (4.0 + Math.random() * 4.0).toFixed(1);
@@ -161,13 +190,12 @@
 
             const alertBox = document.getElementById('statusAlert');
 
-            // Threshold checks for automated directives
             if (ph < 6.5 || ph > 8.5 || turbidity > 5.0 || doVal < 5.0 || tds > 500) {
                 alertBox.className = "alert-box alert-warning";
-                alertBox.innerText = "⚠️ Directive Alert: Anomaly detected in telemetry stream! Automated purification response initiated.";
+                alertBox.innerText = `⚠️ Directive Alert [${area}]: Anomaly detected in telemetry stream! Automated purification response initiated.`;
             } else {
                 alertBox.className = "alert-box alert-safe";
-                alertBox.innerText = "✅ Field Action Directive: Water quality parameters within optimal safety thresholds.";
+                alertBox.innerText = `✅ Field Action Directive [${area}]: Water quality parameters within optimal safety thresholds.`;
             }
             alertBox.style.display = "block";
         }
